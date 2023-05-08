@@ -16,7 +16,7 @@ class UsersApiController extends Controller
     public function index()
     {
         abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
+        print_r("test");
         return new UserResource(User::with(['roles'])->get());
     }
 

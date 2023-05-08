@@ -7,6 +7,7 @@ use App\Http\Requests\MassDestroyPermissionRequest;
 use App\Http\Requests\StorePermissionRequest;
 use App\Http\Requests\UpdatePermissionRequest;
 use App\Permission;
+use App\Customer;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,6 +39,8 @@ class PermissionsController extends Controller
 
     public function edit(Permission $permission)
     {
+        $output = new \Symfony\Component\Console\Output\ConsoleOutput();
+        $output->writeln($permission);
         abort_if(Gate::denies('permission_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return view('admin.permissions.edit', compact('permission'));

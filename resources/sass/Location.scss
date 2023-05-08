@@ -1,0 +1,46 @@
+.Location-custom{
+    padding: 15px 0px 65px;
+    background-color: rgb(252, 251, 251);
+}
+
+.div1 {
+    padding: 30px 30px 5px 30px;
+    // color: #fff;
+    text-align: left;
+    font-size: 12px;
+    line-height: 12px;
+}
+
+.thead {
+    font-size: 15px;
+    color: #000;
+    font-weight: bold;
+    padding-bottom: 25px;
+}
+
+
+///LocationV2
+.catLocation {
+    width: 100%;
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+}
+
+.textLocation {
+    background-color: #000;
+    color: #ffffff;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    // border-radius: 0px 15px 0px 10px;
+    text-decoration: none;
+    padding: 5px;
+}
+
+.textLocation:hover {
+    color: #ffffff;
+    text-decoration: none;
+}

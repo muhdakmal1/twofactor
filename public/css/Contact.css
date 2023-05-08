@@ -1,0 +1,57 @@
+.Contact-custom {
+  padding: 15px 0px 65px;
+  background-color: rgb(252, 251, 251);
+}
+
+.a {
+  color: #007bff;
+  text-decoration: none;
+  background-color: transparent;
+  -webkit-text-decoration-skip: objects;
+}
+
+.div1 {
+  padding: 30px 30px 5px 30px;
+  text-align: left;
+  font-size: 12px;
+  line-height: 12px;
+}
+
+.thead {
+  font-size: 15px;
+  color: #000;
+  font-weight: bold;
+  padding-bottom: 25px;
+}
+
+.familyName {
+  color: #000;
+  font-weight: bold;
+  padding: 3px;
+}
+
+.familySub {
+  color: #8a7d7d;
+  padding: 3px;
+}
+
+.btnCall {
+  color: #ffffff;
+  background: #232323;
+  border: 1px solid #232323;
+  float: right;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.btnCall:hover {
+  color: #232323;
+  background: #ffffff;
+  border: 1px solid #232323;
+}
+
+.custTd {
+  padding: 0rem;
+}

@@ -10,6 +10,14 @@
                     {{ trans('global.dashboard') }}
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="{{ route("admin.kads.index") }}" class="nav-link {{ request()->is('admin/kad') || request()->is('admin/kad/*') ? 'active' : '' }}">
+                    <i class="fa-fw fas fa-unlock-alt nav-icon">
+
+                    </i>
+                    {{ trans('cruds.ekadManagement.title') }}
+                </a>
+            </li>
             @can('user_management_access')
                 <li class="nav-item nav-dropdown">
                     <a class="nav-link  nav-dropdown-toggle" href="#">
