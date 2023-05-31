@@ -5,9 +5,9 @@
     <div class="card-body">
         {{ trans('global.edit') }} {{ trans('cruds.ekadManagement.title_singular') }}
         <hr>
-        <form action="{{ route("admin.kads.update", [$customer->id]) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route("admin.kads.update", [$customer->template->id]) }}" method="POST" enctype="multipart/form-data">
             <input name="customer_id" value="{{ $customer->id }}" hidden/>
-            <input name="customer_name" value="{{ $customer->template->customer_name }}" hidden/>
+            {{-- <input name="customer_name" value="{{ $customer->template->customer_name }}" hidden/> --}}
             @csrf
             {{-- @method('PUT') --}}
             <div class="row">
@@ -15,7 +15,7 @@
                     <div class="col-md-12">
                         <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
                             <label for="customer_name">{{ trans('cruds.ekadManagement.fields.name') }} <span style="color:red">*</span></label>
-                            <input type="text" id="customer_name" name="customer_name" class="form-control" value="{{ old('name', isset($customer) ? $customer->template->customer_name : '') }}" disabled>
+                            <input type="text" id="customer_name" name="customer_name" class="form-control" value="{{ old('name', isset($customer) ? $customer->template->customer_name : '') }}" required>
                             @if($errors->has('name'))
                                 <em class="invalid-feedback">
                                     {{ $errors->first('name') }}
@@ -85,15 +85,15 @@
                 </div>
                 <div class="col-md-6" style="text-align: center;">
                     <div class="col-md-12 container mb-3">
-                        <img style="width: 200px" src="{{asset($customer->template->url_img)}}">
+                        <img id="blah" style="width: 200px" src="{{asset($customer->template->url_img)}}">
                     </div>
                     <div class="col-md-12">
                         <div class="file-input form-group {{ $errors->has('url_img') ? 'has-error' : '' }}" style="text-align: center;">
                             {{-- <label for="url_img">{{ trans('cruds.ekadManagement.kad_fields.url_img') }}*</label> --}}
                             {{-- <input type="text" id="url_img" name="url_img" class="form-control" value="{{ old('url_img', isset($customer) ? $customer->template->url_img : '') }}" hidden> --}}
                             
-                            <input type="file" id="url_img2" name="url_img2" class="file-input__input form-control" value="{{ old('url_img', isset($customer) ? $customer->template->url_img : '') }}">
-                            <label class="file-input__label" for="url_img2">
+                            <input type="file" id="url_img" onchange="readURL(this);" name="url_img" class="file-input__input form-control" value="{{ old('url_img', isset($customer) ? $customer->template->url_img : '') }}">
+                            <label class="file-input__label" for="url_img">
                                 <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="upload" class="svg-inline--fa fa-upload fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                 <path fill="currentColor"
                                     d="M296 384h-80c-13.3 0-24-10.7-24-24V192h-87.7c-17.8 0-26.7-21.5-14.1-34.1L242.3 5.7c7.5-7.5 19.8-7.5 27.3 0l152.2 152.2c12.6 12.6 3.7 34.1-14.1 34.1H320v168c0 13.3-10.7 24-24 24zm216-8v112c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V376c0-13.3 10.7-24 24-24h136v8c0 30.9 25.1 56 56 56h80c30.9 0 56-25.1 56-56v-8h136c13.3 0 24 10.7 24 24zm-124 88c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20zm64 0c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20z"
@@ -112,22 +112,22 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12">
+                {{-- <div class="col-md-12">
                     <div class="col-md-12">
                         <div class="form-group {{ $errors->has('intro_desc') ? 'has-error' : '' }}">
-                            <label for="intro_desc">{{ trans('cruds.ekadManagement.kad_fields.intro_desc') }} <span style="color:red">*</span></label>
-                            <input type="text" id="intro_desc" name="intro_desc" class="form-control" value="{{ old('intro_desc', isset($customer) ? $customer->template->intro_desc : '') }}" required>
-                            @if($errors->has('intro_desc'))
+                            <label for="intro_desc">{{ trans('cruds.ekadManagement.kad_fields.intro_desc') }} <span style="color:red">*</span></label> --}}
+                            <input type="text" id="intro_desc" name="intro_desc" class="form-control" value="{{ old('intro_desc', isset($customer) ? $customer->template->intro_desc : '') }}" hidden>
+                            {{-- @if($errors->has('intro_desc'))
                                 <em class="invalid-feedback">
                                     {{ $errors->first('intro_desc') }}
                                 </em>
-                            @endif
+                            @endif --}}
                             {{-- <p class="helper-block">
                                 {{ trans('cruds.ekadManagement.kad_fields.intro_desc_helper') }}
                             </p> --}}
-                        </div>
+                        {{-- </div>
                     </div>
-                </div>
+                </div> --}}
                 <div class="col-md-6">
                     <div class="col-md-12">
                         <div class="form-group {{ $errors->has('location_short') ? 'has-error' : '' }}">
@@ -144,9 +144,16 @@
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <div class="form-group {{ $errors->has('time_event1') ? 'has-error' : '' }}">
+                        <div class="form-group {{ $errors->has('time_event1') ? 'has-error' : '' }}" id="timepicker1">
                             <label for="time_event1">{{ trans('cruds.ekadManagement.kad_fields.time_event1') }} <span style="color:red">*</span></label>
-                            <input type="text" id="time_event1" name="time_event1" class="form-control" value="{{ old('time_event1', isset($customer) ? $customer->template->time_event1 : '') }}" required>
+                            <div class="row input-group pl-3">
+                                <input type="text" id="time_event1" name="time_event1" class="form-control" value="{{ old('time_event1', isset($customer) ? $customer->template->time_event1 : '') }}" required>
+                                <div class="input-group-addon input-group-append">
+                                    <div class="input-group-text">
+                                        <i class="glyphicon glyphicon-calendar fa fa-clock"></i>
+                                    </div>
+                                </div>
+                            </div>
                             @if($errors->has('time_event1'))
                                 <em class="invalid-feedback">
                                     {{ $errors->first('time_event1') }}
@@ -158,9 +165,16 @@
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <div class="form-group {{ $errors->has('time_event2') ? 'has-error' : '' }}">
+                        <div class="form-group {{ $errors->has('time_event2') ? 'has-error' : '' }}" id="timepicker2">
                             <label for="time_event2">{{ trans('cruds.ekadManagement.kad_fields.time_event2') }} <span style="color:red">*</span></label>
-                            <input type="text" id="time_event2" name="time_event2" class="form-control" value="{{ old('time_event2', isset($customer) ? $customer->template->time_event2 : '') }}" required>
+                            <div class="row input-group pl-3">
+                                <input type="text" id="time_event2" name="time_event2" class="form-control" value="{{ old('time_event2', isset($customer) ? $customer->template->time_event2 : '') }}" required>
+                                <div class="input-group-addon input-group-append">
+                                    <div class="input-group-text">
+                                        <i class="glyphicon glyphicon-calendar fa fa-clock"></i>
+                                    </div>
+                                </div>
+                            </div>
                             @if($errors->has('time_event2'))
                                 <em class="invalid-feedback">
                                     {{ $errors->first('time_event2') }}
@@ -172,9 +186,16 @@
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <div class="form-group {{ $errors->has('time_event3') ? 'has-error' : '' }}">
+                        <div class="form-group {{ $errors->has('time_event3') ? 'has-error' : '' }}" id="timepicker3">
                             <label for="time_event3">{{ trans('cruds.ekadManagement.kad_fields.time_event3') }} <span style="color:red">*</span></label>
-                            <input type="text" id="time_event3" name="time_event3" class="form-control" value="{{ old('time_event3', isset($customer) ? $customer->template->time_event3 : '') }}" required>
+                            <div class="row input-group pl-3">
+                                <input type="text" id="time_event3" name="time_event3" class="form-control" value="{{ old('time_event3', isset($customer) ? $customer->template->time_event3 : '') }}" required>
+                                <div class="input-group-addon input-group-append">
+                                    <div class="input-group-text">
+                                        <i class="glyphicon glyphicon-calendar fa fa-clock"></i>
+                                    </div>
+                                </div>
+                            </div>
                             @if($errors->has('time_event3'))
                                 <em class="invalid-feedback">
                                     {{ $errors->first('time_event3') }}
@@ -190,7 +211,14 @@
                     <div class="col-md-12">
                         <div class="form-group {{ $errors->has('date_event') ? 'has-error' : '' }}" id="datetimepicker1">
                             <label for="date_event">{{ trans('cruds.ekadManagement.kad_fields.date_event') }} <span style="color:red">*</span></label>
-                            <input type="text" id="date_event" name="date_event" class="form-control" value="{{ old('date_event', isset($customer) ? $customer->template->date_event : '') }}" required>
+                            <div class="row input-group pl-3">
+                                <input type="text" id="date_event" name="date_event" class="form-control" value="{{ old('date_event', isset($customer) ? $customer->template->date_event : '') }}" required>
+                                <div class="input-group-addon input-group-append">
+                                    <div class="input-group-text">
+                                        <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                                    </div>
+                                </div>
+                            </div>
                             @if($errors->has('date_event'))
                                 <em class="invalid-feedback">
                                     {{ $errors->first('date_event') }}
@@ -426,7 +454,7 @@
                             {{-- <input type="text" id="music_id" name="music_id" class="form-control" value="{{ old('music_id', isset($customer) ? $customer->template->music_id : '') }}" required> --}}
                             <select name="music_id" id="music_id" class="form-control select2" required>
                                 @foreach($music as $id => $music)
-                                    <option value="{{ $id }}" {{ ($id == old('music_id', $customer->template->music_id)) ? 'selected' : '' }}> {{ $music->music_title }} - {{ $music->music_author }} </option>
+                                    <option value="{{ $id }}" {{ ($id+1 == old('music_id', $customer->template->music_id)) ? 'selected' : '' }}> {{ $music->music_title }} - {{ $music->music_author }} </option>
                                 @endforeach
                             </select>
                             @if($errors->has('music_id'))
@@ -441,8 +469,16 @@
                     </div>
                     <div class="col-md-12">
                         <div class="form-group {{ $errors->has('googlemap_url') ? 'has-error' : '' }}">
-                            <label for="googlemap_url">{{ trans('cruds.ekadManagement.kad_fields.googlemap_url') }} <span style="color:red">*</span></label>
-                            <input type="text" id="googlemap_url" name="googlemap_url" class="form-control" value="{{ old('googlemap_url', isset($customer) ? $customer->template->googlemap_url : '') }}" required>
+                            <label for="googlemap_url">{{ trans('cruds.ekadManagement.kad_fields.googlemap_url') }} <span style="color:red">*</span> <i id="tooltipgoogle" style="color:gray;" title="Copy the URL after set location in Google Map." class="fa fa-info-circle"></i></label>
+                            <div class="row input-group pl-3">
+                                <input type="text" id="googlemap_link" name="googlemap_link" class="form-control" value="{{ old('googlemap_url', isset($customer) ? $customer->template->googlemap_link : '') }}" required>
+                                <input type="text" id="googlemap_url" name="googlemap_url" class="form-control" value="{{ old('googlemap_url', isset($customer) ? $customer->template->googlemap_url : '') }}" hidden>
+                                <div class="input-group-addon input-group-append">
+                                    <div class="input-group-text">
+                                        <a href="https://www.google.com/maps/@2.8670498,102.9484405,8.44z?entry=ttu" target="_blanks">Click Here to Google Map</a>
+                                    </div>
+                                </div>
+                            </div>
                             @if($errors->has('googlemap_url'))
                                 <em class="invalid-feedback">
                                     {{ $errors->first('googlemap_url') }}
@@ -452,11 +488,27 @@
                                 {{ trans('cruds.ekadManagement.kad_fields.intro_desc_helper') }}
                             </p> --}}
                         </div>
+{{-- <iframe id="iframeGoogle"
+  width="600"
+  height="450"
+  style="border:0"
+  loading="lazy"
+  allowfullscreen
+  referrerpolicy="no-referrer-when-downgrade"
+  src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBs8CRG9Ulc8EcxFrblMwusvUgIN_KxrGw&q=Malaysia">
+</iframe> --}}
                     </div>
                     <div class="col-md-12">
                         <div class="form-group {{ $errors->has('wazemap_url') ? 'has-error' : '' }}">
-                            <label for="wazemap_url">{{ trans('cruds.ekadManagement.kad_fields.wazemap_url') }} <span style="color:red">*</span></label>
-                            <input type="text" id="wazemap_url" name="wazemap_url" class="form-control" value="{{ old('wazemap_url', isset($customer) ? $customer->template->wazemap_url : '') }}" required>
+                            <label for="wazemap_url">{{ trans('cruds.ekadManagement.kad_fields.wazemap_url') }} <span style="color:red">*</span> <i id="tooltipwaze" style="color:gray;" title="Copy the URL after set location in Waze Map." class="fa fa-info-circle"></i></label>
+                            <div class="row input-group pl-3">
+                                <input type="text" id="wazemap_url" name="wazemap_url" class="form-control" value="{{ old('wazemap_url', isset($customer) ? $customer->template->wazemap_url : '') }}" required>
+                                <div class="input-group-addon input-group-append">
+                                    <div class="input-group-text">
+                                        <a href="https://www.waze.com/en/live-map/directions?navigate=yes&q=Dropped+Pin" target="_blanks">Click Here to Waze Map</a>
+                                    </div>
+                                </div>
+                            </div>
                             @if($errors->has('wazemap_url'))
                                 <em class="invalid-feedback">
                                     {{ $errors->first('wazemap_url') }}
@@ -467,7 +519,7 @@
                             </p> --}}
                         </div>
                     </div>
-                    <div class="col-md-12">
+                    {{-- <div class="col-md-12">
                         <div class="form-group {{ $errors->has('google_calendar') ? 'has-error' : '' }}">
                             <label for="google_calendar">{{ trans('cruds.ekadManagement.kad_fields.google_calendar') }} <span style="color:red">*</span></label>
                             <input type="text" id="google_calendar" name="google_calendar" class="form-control" value="{{ old('google_calendar', isset($customer) ? $customer->template->google_calendar : '') }}" required>
@@ -476,9 +528,6 @@
                                     {{ $errors->first('google_calendar') }}
                                 </em>
                             @endif
-                            {{-- <p class="helper-block">
-                                {{ trans('cruds.ekadManagement.kad_fields.intro_desc_helper') }}
-                            </p> --}}
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -490,11 +539,8 @@
                                     {{ $errors->first('apple_calendar') }}
                                 </em>
                             @endif
-                            {{-- <p class="helper-block">
-                                {{ trans('cruds.ekadManagement.kad_fields.intro_desc_helper') }}
-                            </p> --}}
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="col-md-12">
                         <div class="form-group {{ $errors->has('textUcapan') ? 'has-error' : '' }}">
                             <label for="textUcapan">{{ trans('cruds.ekadManagement.kad_fields.textUcapan') }} <span style="color:red">*</span></label>
@@ -510,7 +556,7 @@
                                 {{ trans('cruds.ekadManagement.kad_fields.intro_desc_helper') }}
                             </p> --}}
                         </div>
-                    </div>
+                    </div>                     
                 </div>
             </div>
             <div>
@@ -557,10 +603,70 @@
 
 @section('scripts')
 <script type="text/javascript">
-    // $(function () {
-        // $('#datetimepicker1').datetimepicker();
-    // });
+    $(function () {
+        url = "https://www.google.com/maps/embed/v1/place?key=AIzaSyBs8CRG9Ulc8EcxFrblMwusvUgIN_KxrGw&q=";
+        $('#location_short').on("keyup change", function(e) {
+            if ($('#location_short').val() == '') {
+                $('#googlemap_url').val() == url + 'Malaysia';
+                // $('#iframeGoogle').attr('src', url + 'Malaysia');
+                // $('#iframeGoogle').contentWindow.location.reload();
+            }
+            else {
+                $('#googlemap_url').val() == url + $('#location_short').val();
+                // $('#iframeGoogle').attr('src', url + $('#location_short').val());
+                // $('#iframeGoogle').contentWindow.location.reload();
+            }
+            console.log(url + $('#location_short').val());
+        });
 
-    $('.input-group.date').datetimepicker(); 
+        $('#tooltipgoogle').tooltip({
+            "boundary": "window",
+            placement: "right",
+            // "title":"Information",
+            // template: '<div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-head"><h3><i class="bi-info-circle"></i> Important Info</h3></div><div class="tooltip-inner"></div>',
+        });
+
+        $('#tooltipwaze').tooltip({
+            "boundary": "window",
+            placement: "right",
+            // "title":"Information",
+            // template: '<div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-head"><h3><i class="bi-info-circle"></i> Important Info</h3></div><div class="tooltip-inner"></div>',
+        });
+
+        $('#datetimepicker1').datetimepicker({
+            "allowInputToggle": true,
+            "showClose": true,
+            "showClear": true,
+            "showTodayButton": true,
+            // "useCurrent": false,
+            "format": "YYYY-MM-DD hh:mm:ss",
+        });
+
+        $('#timepicker1,#timepicker2,#timepicker3').datetimepicker({
+            "allowInputToggle": true,
+            "showClose": true,
+            "showClear": true,
+            "showTodayButton": true,
+            // "useCurrent": false,
+            "format": "hh:mm A",
+        });
+
+        readURL = function(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#blah')
+                        .attr('src', e.target.result)
+                        .width(150)
+                        .height(200);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    });
+
+    // $('.input-group.date').datetimepicker(); 
  </script>
 @endsection

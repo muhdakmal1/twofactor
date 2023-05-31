@@ -15,7 +15,7 @@ class model_cps_customer extends Model
     const CREATED_AT = null;
     protected $table = 'cps_customer';
     protected $primaryKey = 'id';
-    protected $fillable = ['name', 'email', 'url', 'basic', 'advanced', 'is_paid', 'expired_at', 'created_at', 'created_by', 'updated_at', 'updated_by'];
+    protected $fillable = ['name', 'email', 'url', 'basic', 'advanced', 'is_paid', 'expired_at', 'created_at', 'created_by', 'updated_at', 'updated_by', 'is_deleted'];
 
     public function template()
     {

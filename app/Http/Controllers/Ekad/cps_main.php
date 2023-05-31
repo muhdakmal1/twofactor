@@ -26,6 +26,9 @@ class cps_main extends Controller
         ->where('name',$user)
         ->get();
 
+        // $output = new \Symfony\Component\Console\Output\ConsoleOutput();
+        // $output->writeln($template_data);
+
         return view('ekad/index', compact('template_data','wishes_data', 'user_id'));
     }
     
@@ -35,6 +38,9 @@ class cps_main extends Controller
         ->leftjoin('cps_music', 'cps_music.id', '=', 'cps_template.music_id')
         ->where('cps_customer.name',$user)
         ->first();
+
+        // $output = new \Symfony\Component\Console\Output\ConsoleOutput();
+        // $output.writeln($template_data);
 
         $user_id = $template_data->customer_id;
 

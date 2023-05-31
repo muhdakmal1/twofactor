@@ -1,0 +1,4 @@
+spf = v=spf1 +mx +a +ip4:45.77.225.147 ~all 
+v=spf1 ip4:45.77.225.147 include:_spf.google.com ~all
+
+dmarcs = v=DMARC1; p=none; rua=mailto:webmaster@clickpixelstudio.com; ruf=mailto:webmaster@clickpixelstudio.com; fo=1

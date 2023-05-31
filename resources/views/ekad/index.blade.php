@@ -15,16 +15,17 @@
     $hari5 = $date5->locale('ms');
     $tarikh = $date1->locale('ms')->translatedFormat('l, j F Y');
 
-    $color_layoutjemputan = model_cps_config::where('customer_id',$user_id)->where('item','color_layoutjemputan')->first();
-    $color_layoutPengantin = model_cps_config::where('customer_id',$user_id)->where('item','color_layoutPengantin')->first();
-    $color_calendar_icon = model_cps_config::where('customer_id',$user_id)->where('item','color_calendar_icon')->first();
-    $color_location_icon = model_cps_config::where('customer_id',$user_id)->where('item','color_location_icon')->first();
-    $color_time_icon = model_cps_config::where('customer_id',$user_id)->where('item','color_time_icon')->first();
-    $color_day = model_cps_config::where('customer_id',$user_id)->where('item','color_day')->first();
-    $color_hour = model_cps_config::where('customer_id',$user_id)->where('item','color_hour')->first();
-    $color_minute = model_cps_config::where('customer_id',$user_id)->where('item','color_minute')->first();
-    $color_second = model_cps_config::where('customer_id',$user_id)->where('item','color_second')->first();
-    $text_countdownItem = model_cps_config::where('customer_id',$user_id)->where('item','text_countdownItem')->first();
+    $config = $template_data->config_type;
+    $color_layoutjemputan = model_cps_config::where('customer_id',$config)->where('item','color_layoutjemputan')->first();
+    $color_layoutPengantin = model_cps_config::where('customer_id',$config)->where('item','color_layoutPengantin')->first();
+    $color_calendar_icon = model_cps_config::where('customer_id',$config)->where('item','color_calendar_icon')->first();
+    $color_location_icon = model_cps_config::where('customer_id',$config)->where('item','color_location_icon')->first();
+    $color_time_icon = model_cps_config::where('customer_id',$config)->where('item','color_time_icon')->first();
+    $color_day = model_cps_config::where('customer_id',$config)->where('item','color_day')->first();
+    $color_hour = model_cps_config::where('customer_id',$config)->where('item','color_hour')->first();
+    $color_minute = model_cps_config::where('customer_id',$config)->where('item','color_minute')->first();
+    $color_second = model_cps_config::where('customer_id',$config)->where('item','color_second')->first();
+    $text_countdownItem = model_cps_config::where('customer_id',$config)->where('item','text_countdownItem')->first();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -467,7 +468,7 @@
                                 <p style="text-align:center;">
                                     <a 
                                     class="textCalendar"
-                                        href="{{asset($template_data->apple_calendar)}}"
+                                        href="{{ $template_data->apple_calendar }}"
                                         target="_blank"
                                     >
                                         Apple Calendar

@@ -56,7 +56,8 @@ class model_cps_template extends Model
         'layoutPengantin',
         'layoutParents',
         'textJemputan',
-        'textUcapan'];
+        'textUcapan',
+        'config_type'];
 
     public function customer()
     {
